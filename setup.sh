@@ -48,8 +48,11 @@ ln -sf dotfiles/.emacs.d .
 
 
 #Install WordPress dependencies
-sudo apt-get install -y httpd
-sudo apt-get install -y php php-mysql
+apt-get install -y apache2
+apt-get install -y php5 libapache2-mod-php5
+sudo apt-get install -y php5-mysql php5-curl php5-gd php5-idn php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-ming php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl
+sudo a2ensite wordpress
+sudo /etc/init.d/apache2 restart
 sudo apt-get install -y mysql-server
 sudo apt-get install -y php5-dom
 
@@ -57,11 +60,12 @@ mysqladmin -uroot create maindb
 # Will prompt user for db password
 mysql_secure_installation
 
-cd /var/www/html
+cd /var/www/
+mkdir wordpress
 sudo wget http://wordpress.org/latest.tar.gz
-sudo tar -xzvf latest.tar.gzcd
+sudo tar -xzvf latest.tar.gz
 
 cd ..
-chown -R apache html
-sudo service httpd start
+chown -R apache wordpress
+sudo /etc/init.d/apache2 restart
 
