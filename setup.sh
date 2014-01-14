@@ -39,10 +39,29 @@ fi
 if [ -d .emacs.d/ ]; then
     mv .emacs.d .emacs.d~
 fi
-git clone https://github.com/startup-class/dotfiles.git
+git clone https://github.com/dwanderton/dotfiles.git
 ln -sb dotfiles/.screenrc .
 ln -sb dotfiles/.bash_profile .
 ln -sb dotfiles/.bashrc .
 ln -sb dotfiles/.bashrc_custom .
 ln -sf dotfiles/.emacs.d .
+
+
+#Install WordPress dependencies
+sudo apt-get install -y httpd
+sudo apt-get install -y php php-mysql
+sudo apt-get install -y mysql-server
+sudo apt-get install -y php5-dom
+
+mysqladmin -uroot create maindb
+# Will prompt user for db password
+mysql_secure_installation
+
+cd /var/www/html
+sudo wget http://wordpress.org/latest.tar.gz
+sudo tar -xzvf latest.tar.gzcd
+
+cd ..
+chown -R apache html
+sudo service httpd start
 
